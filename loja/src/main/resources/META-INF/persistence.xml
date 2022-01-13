@@ -5,11 +5,16 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 
 	<persistence-unit name="loja" transaction-type="RESOURCE_LOCAL">
+		<!-- Adicionando a entidade  -->
+		<!-- Porém, como estou usando o hibernate, ele consegue encontrar as classes e não preciso adicionar, mas fico 
+		dependente dele, pois é uma funcionalidade dele e não da JPA, e se eu adicionar uma tenho que adicionar todas -->
+		<!--<class>br.com.alura.loja.modelo.Produto</class>-->
+	
 		<properties>
 			<!-- Propriedades de configuração da JPA -->
 			<property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
-			<property name="javax.persistence.jdbc.url" value="h2:mem:loja"/>
-			<property name="javax.persistence.jdbc.username" value="sa"/>
+			<property name="javax.persistence.jdbc.url" value="jdbc:h2:mem:loja"/>
+			<property name="javax.persistence.jdbc.user" value="sa"/>
 			<property name="javax.persistence.jdbc.password" value=""/>
 			
 			<!-- Propriedades de configuração do Hibernate -->
