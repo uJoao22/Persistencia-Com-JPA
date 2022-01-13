@@ -19,6 +19,12 @@
 			
 			<!-- Propriedades de configuração do Hibernate -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+			
+			<!-- Essa propriedade fala: Hibernate, toda vez que você gerar um SQL, imrpime no console pra mim  -->
+			<property name="hibernate.show _sql" value="true"/>
+			
+			<!-- Criando a tabela no banco automaticamente pelo comando abaixo -->
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
 		</properties>
 	</persistence-unit>
 
