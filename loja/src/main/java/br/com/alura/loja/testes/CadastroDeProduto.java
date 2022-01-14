@@ -1,38 +1,43 @@
 package br.com.alura.loja.testes;
 
-import java.math.BigDecimal;
+//import java.math.BigDecimal;
 
 import javax.persistence.EntityManager;
 
-import br.com.alura.loja.dao.CategoriaDao;
-import br.com.alura.loja.dao.ProdutoDao;
+//import br.com.alura.loja.dao.CategoriaDao;
+//import br.com.alura.loja.dao.ProdutoDao;
 import br.com.alura.loja.modelo.Categoria;
-import br.com.alura.loja.modelo.Produto;
+//import br.com.alura.loja.modelo.Produto;
 import br.com.alura.loja.util.JPAUtil;
 
 public class CadastroDeProduto {
 	public static void main(String[] args) {
 
 		Categoria celulares = new Categoria("CELULARES");
-		Produto celular = new Produto("Iphone 13", "Otimas fotos", new BigDecimal("8000"), celulares);
 		
 		EntityManager em = JPAUtil.getEntityManager();
-		ProdutoDao produtoDao = new ProdutoDao(em);
-		CategoriaDao categoriaDao = new CategoriaDao(em);
-		
+
 		//Iniciando a transação para poder inserir dados no banco de dados
 		em.getTransaction().begin();
+
+		//Persistindo a categoria no banco
+		em.persist(celulares);
 		
-		//Cadastrando a categoria na tabela de categorias
-		categoriaDao.cadastrar(celulares);
+		//Alterando um dado apos a persistencia dele no banco
+		celulares.setNome("XPTO");
 		
-		//Cadastrando o produto na tabela produtos
-		produtoDao.cadastrar(celular);
+		//Dando um flush nas alteraçoes acima, atualizando o banco com elas
+		em.flush();
 		
-		//Comittando a alteração no banco, após todas as ações
-		em.getTransaction().commit();
+		//Limpando as entidades
+		em.clear();
 		
-		//Após terminar de usar o Entity Manager, tem que fecha-lo
-		em.close();
+		//Fazendo um merge, voltando o EntityManager para o estado antes de ser fechado
+		celulares = em.merge(celulares);
+		
+		//Fazendo uma alteração, apó ter fechado o EntityManager - Não deve ser alterada
+		celulares.setNome("1234");
+		
+		em.flush();
 	}
 }

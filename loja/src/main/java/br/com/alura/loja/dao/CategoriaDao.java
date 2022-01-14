@@ -19,4 +19,9 @@ public class CategoriaDao {
 		this.em.persist(categoria);
 	}
 
+	public void atualizar(Categoria categoria) {
+		//Quando este método for chamado ele volta o EntityManager para o estado de Managed, antes de ser fechada
+		this.em.merge(categoria);
+	}
+
 }

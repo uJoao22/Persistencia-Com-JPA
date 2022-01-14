@@ -28,6 +28,8 @@ public class Produto {
 	@ManyToOne //Dizendo que a cardinalidade é de muitos produtos para 1 categoria
 	private Categoria  categoria;
 	
+	public Produto() {}
+	
 	public Produto(String nome, String descricao, BigDecimal preco, Categoria categoria) {
 		this.nome = nome;
 		this.descricao = descricao;
