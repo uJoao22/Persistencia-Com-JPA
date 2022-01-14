@@ -34,6 +34,9 @@ public class CadastroDeProduto {
 		
 		List<Produto> categorias = produtoDao.buscarPorCategoria("CELULARES");
 		categorias.forEach(c -> System.out.println("O produto "+c.getNome()+" pertence a categoria de CELULARES"));
+		
+		BigDecimal precoProduto = produtoDao.buscarPrecoProdutoComNome("MacBook Pro");
+		System.out.println("O preço do MacBook Pro é de: R$"+precoProduto);
 	}
 
 	private static void cadastrarProduto() {

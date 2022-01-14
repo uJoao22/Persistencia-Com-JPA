@@ -1,5 +1,6 @@
 package br.com.alura.loja.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -57,6 +58,15 @@ public class ProdutoDao {
 		//relacionar e o atributo dessa entidade que é desejado pegar
 		String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome = ?1";
 		return em.createQuery(jpql, Produto.class).setParameter(1, categoria).getResultList();
+	}
+	
+	public BigDecimal buscarPrecoProdutoComNome(String nome){
+		//Filtrando os atributos da entidade, para me retornar apenas o preço 
+		String jpql = "SELECT p.preco FROM Produto p WHERE p.nome = :nome";
+
+		//Quando se deseja retornar apenas um unico registro da entidade, um unico atributo, devemos
+		//usar o método getSingleResult
+		return em.createQuery(jpql, BigDecimal.class).setParameter("nome", nome).getSingleResult();
 	}
 
 }
