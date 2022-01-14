@@ -39,5 +39,10 @@ public class CadastroDeProduto {
 		celulares.setNome("1234");
 		
 		em.flush();
+		
+		//Excluindo a entidade do banco de dados, através do método remove
+		em.remove(celulares);
+		
+		em.flush();
 	}
 }

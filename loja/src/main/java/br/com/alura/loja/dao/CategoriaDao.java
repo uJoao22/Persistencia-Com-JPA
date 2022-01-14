@@ -23,5 +23,12 @@ public class CategoriaDao {
 		//Quando este método for chamado ele volta o EntityManager para o estado de Managed, antes de ser fechada
 		this.em.merge(categoria);
 	}
+	
+	public void remover(Categoria categoria) {
+		//Este método remove a entidade do banco de dados, para ser removido, o EntityManager 
+		//precisa estar no estadod e Managed, então faço um merge para verficiar se está nesse estado
+		categoria = this.em.merge(categoria);
+		this.em.remove(categoria);
+	}
 
 }
