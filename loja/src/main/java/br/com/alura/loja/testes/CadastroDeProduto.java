@@ -28,11 +28,20 @@ public class CadastroDeProduto {
 
 		//Fazendo um forEach com lambda para imprimir os resultados da lista
 		todos.forEach(p2 -> System.out.println(p2.getNome()));
+		
+		List<Produto> nomes = produtoDao.buscarPorNome("Sansung A31");
+		nomes.forEach(n -> System.out.println("Celular correspondente a pesquisa: "+n.getNome()+" - R$"+n.getPreco()));
+		
+		List<Produto> categorias = produtoDao.buscarPorCategoria("CELULARES");
+		categorias.forEach(c -> System.out.println("O produto "+c.getNome()+" pertence a categoria de CELULARES"));
 	}
 
 	private static void cadastrarProduto() {
 		Categoria celulares = new Categoria("CELULARES");
-		Produto celular = new Produto("Iphone 13", "Otimas fotos", new BigDecimal("8000"), celulares); 
+		Categoria notebooks = new Categoria("NOTEBOOKS");
+		Produto celular = new Produto("Iphone 13", "Otimas fotos", new BigDecimal("8000"), celulares);
+		Produto celular2 = new Produto("Sansung A31", "Custo beneficio", new BigDecimal("1200"), celulares);
+		Produto notebook = new Produto("MacBook Pro", "Excelente desempenho", new BigDecimal("10000"), notebooks);
 		
 		EntityManager em = JPAUtil.getEntityManager();
 		ProdutoDao produtoDao = new ProdutoDao(em);
@@ -41,7 +50,10 @@ public class CadastroDeProduto {
 		em.getTransaction().begin();
 
 		categoriaDao.cadastrar(celulares);
+		categoriaDao.cadastrar(notebooks);
 		produtoDao.cadastrar(celular);
+		produtoDao.cadastrar(celular2);
+		produtoDao.cadastrar(notebook);
 		
 		em.getTransaction().commit();
 		em.close();

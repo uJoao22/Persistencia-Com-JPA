@@ -23,6 +23,9 @@
 			<!-- Essa propriedade fala: Hibernate, toda vez que você gerar um SQL, imrpime no console pra mim  -->
 			<property name="hibernate.show _sql" value="true"/>
 			
+			<!-- A propriedade abaixo formata as mensagem SQL que são impressas no console para o dev -->
+			<property name="hibernate.format_sql" value="true"/>
+			
 			<!-- Criando a tabela no banco automaticamente pelo comando abaixo -->
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
 		</properties>

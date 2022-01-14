@@ -40,5 +40,23 @@ public class ProdutoDao {
 		//getResultList()
 		return em.createQuery(jpql, Produto.class).getResultList();
 	}
+	
+	public List<Produto> buscarPorNome(String nome){
+		//Fazendo a consulta com filtro, basta adicionar o where e colocar a entidade renomeada, no caso, 
+		//p.nomeDoAtributo que deseja filtrar e colocar a condição, para inserir variaveis na string,
+		//basta adicionar : e dar um nome para a variavel
+		String jpql = "SELECT p FROM Produto p WHERE p.nome = :nome";
+		
+		//Usando o método setParameter para dizer que aquela variavel depois dos : na string da query
+		//é equivalente a tal variavel, que é colocada no segundo parametro
+		return em.createQuery(jpql, Produto.class).setParameter("nome", nome).getResultList();
+	}
+	
+	public List<Produto> buscarPorCategoria(String categoria){
+		//Fazendo o relacionamento na jpql, colocando a entidade original, a entidade que irá se
+		//relacionar e o atributo dessa entidade que é desejado pegar
+		String jpql = "SELECT p FROM Produto p WHERE p.categoria.nome = ?1";
+		return em.createQuery(jpql, Produto.class).setParameter(1, categoria).getResultList();
+	}
 
 }
