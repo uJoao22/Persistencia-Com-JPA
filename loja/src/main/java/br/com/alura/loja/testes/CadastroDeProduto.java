@@ -1,48 +1,49 @@
 package br.com.alura.loja.testes;
 
-//import java.math.BigDecimal;
+import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 
-//import br.com.alura.loja.dao.CategoriaDao;
-//import br.com.alura.loja.dao.ProdutoDao;
+import br.com.alura.loja.dao.CategoriaDao;
+import br.com.alura.loja.dao.ProdutoDao;
 import br.com.alura.loja.modelo.Categoria;
-//import br.com.alura.loja.modelo.Produto;
+import br.com.alura.loja.modelo.Produto;
 import br.com.alura.loja.util.JPAUtil;
 
 public class CadastroDeProduto {
 	public static void main(String[] args) {
-
-		Categoria celulares = new Categoria("CELULARES");
+		cadastrarProduto();
 		
 		EntityManager em = JPAUtil.getEntityManager();
+		ProdutoDao produtoDao = new ProdutoDao(em);
+		
+		//Um objeto do tipo produto recebe o resultado do método que busca informações no banco de dados
+		//através do id passado por parametro
+		Produto p = produtoDao.buscarPorId(1l);
+		System.out.println("O celular "+p.getNome()+", possui "+p.getDescricao()+" e está custando: R$"+p.getPreco());
 
-		//Iniciando a transação para poder inserir dados no banco de dados
+		//Executando o método buscarTodos e retornando uma Lista de objetos Produto
+		List<Produto> todos = produtoDao.buscarTodos();
+
+		//Fazendo um forEach com lambda para imprimir os resultados da lista
+		todos.forEach(p2 -> System.out.println(p2.getNome()));
+	}
+
+	private static void cadastrarProduto() {
+		Categoria celulares = new Categoria("CELULARES");
+		Produto celular = new Produto("Iphone 13", "Otimas fotos", new BigDecimal("8000"), celulares); 
+		
+		EntityManager em = JPAUtil.getEntityManager();
+		ProdutoDao produtoDao = new ProdutoDao(em);
+		CategoriaDao categoriaDao = new CategoriaDao(em);
+
 		em.getTransaction().begin();
 
-		//Persistindo a categoria no banco
-		em.persist(celulares);
+		categoriaDao.cadastrar(celulares);
+		produtoDao.cadastrar(celular);
 		
-		//Alterando um dado apos a persistencia dele no banco
-		celulares.setNome("XPTO");
-		
-		//Dando um flush nas alteraçoes acima, atualizando o banco com elas
-		em.flush();
-		
-		//Limpando as entidades
-		em.clear();
-		
-		//Fazendo um merge, voltando o EntityManager para o estado antes de ser fechado
-		celulares = em.merge(celulares);
-		
-		//Fazendo uma alteração, apó ter fechado o EntityManager - Não deve ser alterada
-		celulares.setNome("1234");
-		
-		em.flush();
-		
-		//Excluindo a entidade do banco de dados, através do método remove
-		em.remove(celulares);
-		
-		em.flush();
+		em.getTransaction().commit();
+		em.close();
 	}
 }
