@@ -2,13 +2,11 @@ package br.com.alura.loja.modelo;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 //Mapeando a entidade
@@ -25,7 +23,9 @@ public class Produto {
 	private String descricao;
 	private BigDecimal preco;
 	private LocalDate dataCadastro = LocalDate.now();
-	@Enumerated(EnumType.STRING) //Definindo que o ENUM abaixo será usado como uma string
+	
+	//A JPA entende que o tipo abaixo é uma entidade, e consegue fazer o relacionamento, porém preciso informar a cardinalidade
+	@ManyToOne //Dizendo que a cardinalidade é de muitos produtos para 1 categoria
 	private Categoria  categoria;
 	
 	public Produto(String nome, String descricao, BigDecimal preco, Categoria categoria) {
